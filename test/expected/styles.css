@@ -1,5 +1,17 @@
-.my-app .some-css-selector, .test .some-css-selector {
+.my-app .some-css-selector, #test .some-css-selector, body .some-css-selector, #sibling.some-css-selector, .sibling.some-css-selector {
   background: green;
+}
+
+.my-app #whatToDoNow, #test #whatToDoNow, body #whatToDoNow, #sibling#whatToDoNow, #whatToDoNow.sibling {
+  background: magenta;
+}
+
+.my-app body, #test body, body#sibling, body.sibling {
+  background: green;
+}
+
+.my-app *:root, #test *:root, body *:root, *:root#sibling, *:root.sibling {
+  background: blueviolet;
 }
 
 .skip-me {
@@ -7,7 +19,7 @@
 }
 
 @media (min-width: 768px) {
-  .my-app .some-css-selector, .test .some-css-selector {
+  .my-app .some-css-selector, #test .some-css-selector, body .some-css-selector, #sibling.some-css-selector, .sibling.some-css-selector {
     width: 750px;
   }
 }

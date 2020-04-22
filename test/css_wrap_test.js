@@ -33,7 +33,13 @@ exports.css_wrap = {
 
     var
       options = {
-        selector: ['.my-app', 'test'],
+        selector: [
+          '.my-app',
+          '#test',
+          { text: 'body', regex: /^[^b][^o][^d][^y]/ },
+          { text: '#sibling', sibling: true },
+          { text: '.sibling', sibling: true },
+        ],
         skip: /^\.skip-me/
       },
       result = css_wrap(path.join(__dirname, '/fixtures/styles.css'), options),

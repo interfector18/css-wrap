@@ -18,6 +18,41 @@ var
   fs = require('fs'),
   css_parse = require('css-parse'),
   css_stringify = require('css-stringify'),
+  get_rule = function (sel, s) {
+    if (typeof sel === 'object') {
+      var ret = [];
+      if (sel.sibling) {
+        if (/^\./.test(sel.text) && /^\./.test(s) ||
+          /^#/.test(sel.text) && /^[#\.]/.test(s) ||
+          /^[^#.]/.test(sel.text) && /^[#.]/.test(s)) {
+          ret.push(sel.text + s);
+        }
+        else if (/^[#.]/.test(sel.text) && /^[^#.]/.test(s) ||
+          /^\./.test(sel.text) && /^#/.test(s)) {
+          ret.push(s + sel.text);
+        }
+      }
+      else {
+        if (/^\./.test(sel.text) && /^\./.test(s) ||
+          /^#/.test(sel.text) && /^[#\.]/.test(s) ||
+          /^[^#\.]/.test(sel.text) && /^[#\.]/.test(s) ||
+          /^[^#\.]/.test(sel.text) && /^[^#\.]/.test(s)) {
+          ret.push(sel.text + ' ' + s);
+        }
+        else if (/^[#\.]/.test(sel.text) && /^[^#\.]/.test(s) ||
+          /^\./.test(sel.text) && /^#/.test(s)) {
+          ret.push(s + ' ' + sel.text);
+        }
+      }
+      if (ret.length > 0)
+        return ret.join(', ');
+      else
+        return '';
+    }
+    else {
+      return sel + ' ' + s;
+    }
+  },
   processRules = function (list, options) {
     return list.map(function (r) {
       if (r.selectors) {
@@ -26,7 +61,22 @@ var
           var selector = '';
           if (typeof options.selector === 'object' && options.selector.length) {
             var selectors = [];
-            options.selector.forEach((sel) => selectors.push(sel ? (sel + " " + s + ", " + sel + s) : s));
+            options.selector.forEach((sel) => {
+              if (typeof sel === 'object' && sel.text) {
+                if (sel.regex && sel.regex.test(s)) {
+                  selectors.push(get_rule(sel, s))
+                }
+                else if (sel.regex) { }
+                else {
+                  selectors.push(get_rule(sel, s));
+                }
+              } else if (typeof sel === 'string') {
+                selectors.push(get_rule(sel, s));
+              }
+              else {
+                throw "text property must be defined";
+              }
+            });
             selector = selectors.join(", ");
           }
           else {

@@ -2,6 +2,18 @@
   background: green;
 }
 
+#whatToDoNow {
+  background: magenta;
+}
+
+body {
+  background: green;
+}
+
+*:root {
+  background: blueviolet;
+}
+
 .skip-me {
   background: red;
 }
