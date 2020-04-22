@@ -16,7 +16,6 @@
 var
   path = require('path'),
   fs = require('fs'),
-  deepmerge = require('deepmerge'),
   css_parse = require('css-parse'),
   css_stringify = require('css-stringify'),
   processRules = function (list, options) {
@@ -27,7 +26,7 @@ var
           var selector = '';
           if (typeof options.selector === 'object' && options.selector.length) {
             var selectors = [];
-            options.selector.forEach((sel) => selectors.push(sel ? sel + " " + s : s));
+            options.selector.forEach((sel) => selectors.push(sel ? (sel + " " + s + ", " + sel + s) : s));
             selector = selectors.join(", ");
           }
           else {

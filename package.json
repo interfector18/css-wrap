@@ -26,8 +26,7 @@
   },
   "dependencies": {
     "css-parse": "^2.0.0",
-    "css-stringify": "^2.0.0",
-    "deepmerge": "^0.2.10"
+    "css-stringify": "^2.0.0"
   },
   "devDependencies": {
     "mkdirp": "^0.5.1",
