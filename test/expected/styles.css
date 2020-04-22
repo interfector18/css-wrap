@@ -1,4 +1,4 @@
-.my-app .some-css-selector {
+.my-app .some-css-selector, .test .some-css-selector {
   background: green;
 }
 
@@ -7,7 +7,7 @@
 }
 
 @media (min-width: 768px) {
-  .my-app .some-css-selector {
+  .my-app .some-css-selector, .test .some-css-selector {
     width: 750px;
   }
 }
