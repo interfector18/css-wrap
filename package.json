@@ -1,11 +1,11 @@
 {
   "name": "@interfector18/css-wrap",
-  "version": "0.1.2",
+  "version": "0.2.0",
   "description": "Wrap CSS rules in a namespace",
   "main": "css_wrap.js",
   "homepage": "https://github.com/interfector18/css-wrap",
   "author": {
-    "name": "Interfector18",
+    "name": "interfector18",
     "email": "zheeththedragon@gmail.com"
   },
   "repository": {

@@ -1,16 +1,16 @@
-.my-app .some-css-selector, #test .some-css-selector, body .some-css-selector, #sibling.some-css-selector, .sibling.some-css-selector {
+.my-app .some-css-selector, #test .some-css-selector, body .some-css-selector, #sibling.some-css-selector, #sibling .some-css-selector, .sibling.some-css-selector, .sibling .some-css-selector {
   background: green;
 }
 
-.my-app #whatToDoNow, #test #whatToDoNow, body #whatToDoNow, #sibling#whatToDoNow, #whatToDoNow.sibling {
+.my-app #whatToDoNow, #test #whatToDoNow, body #whatToDoNow, #sibling#whatToDoNow, #sibling #whatToDoNow, #whatToDoNow.sibling, .sibling #whatToDoNow {
   background: magenta;
 }
 
-.my-app body, #test body, body#sibling, body.sibling {
+body .my-app, body #test, body#sibling, body #sibling, body.sibling, body .sibling {
   background: green;
 }
 
-.my-app *:root, #test *:root, body *:root, *:root#sibling, *:root.sibling {
+.my-app *:root, #test *:root, body *:root, #sibling *:root, .sibling *:root {
   background: blueviolet;
 }
 
@@ -19,7 +19,7 @@
 }
 
 @media (min-width: 768px) {
-  .my-app .some-css-selector, #test .some-css-selector, body .some-css-selector, #sibling.some-css-selector, .sibling.some-css-selector {
+  .my-app .some-css-selector, #test .some-css-selector, body .some-css-selector, #sibling.some-css-selector, #sibling .some-css-selector, .sibling.some-css-selector, .sibling .some-css-selector {
     width: 750px;
   }
 }

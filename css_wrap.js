@@ -21,7 +21,7 @@ var
   get_rule = function (sel, s) {
     if (typeof sel === 'object') {
       var ret = [];
-      if (sel.sibling) {
+      if (sel.sibling && (/:/.test(s) === false)) {
         if (/^\./.test(sel.text) && /^\./.test(s) ||
           /^#/.test(sel.text) && /^[#\.]/.test(s) ||
           /^[^#.]/.test(sel.text) && /^[#.]/.test(s)) {
@@ -32,16 +32,23 @@ var
           ret.push(s + sel.text);
         }
       }
+      if (/^body|html/g.test(s) === false) {
+        ret.push(sel.text + ' ' + s);
+      }
       else {
-        if (/^\./.test(sel.text) && /^\./.test(s) ||
-          /^#/.test(sel.text) && /^[#\.]/.test(s) ||
-          /^[^#\.]/.test(sel.text) && /^[#\.]/.test(s) ||
-          /^[^#\.]/.test(sel.text) && /^[^#\.]/.test(s)) {
-          ret.push(sel.text + ' ' + s);
+        var parts = s.split(" ");
+        if (parts.length > 1) {
+          var bodyOrHtmlPart = parts[0];
+          var otherParts = parts.filter((part, index) => index !== 0).join(" ");
+          ret.push(bodyOrHtmlPart + ' ' + sel.text + ' ' + otherParts);
         }
-        else if (/^[#\.]/.test(sel.text) && /^[^#\.]/.test(s) ||
-          /^\./.test(sel.text) && /^#/.test(s)) {
-          ret.push(s + ' ' + sel.text);
+        // } else if (parts.length === 1) {
+        //   // ret.push(sel.text);
+        //   if(/^body|html$/.test(s) === false)
+        //   ret.push(s + ' ' + sel.text);
+        // }
+        else {
+          ret.push(s + ' ' + sel.text)
         }
       }
       if (ret.length > 0)
@@ -50,7 +57,12 @@ var
         return '';
     }
     else {
-      return sel + ' ' + s;
+      if (/^body|html/g.test(s) === false) {
+        return (sel + ' ' + s);
+      }
+      else {
+        return (s + ' ' + sel);
+      }
     }
   },
   processRules = function (list, options) {
@@ -77,10 +89,10 @@ var
                 throw "text property must be defined";
               }
             });
-            selector = selectors.join(", ");
+            selector = selectors.filter((sel) => sel && sel.length > 0).join(", ");
           }
           else {
-            selector = options.selector ? options.selector + " " + s : s;
+            selector = get_rule(options.selector, s);
           }
           r.selectors[index] = selector;
         });
