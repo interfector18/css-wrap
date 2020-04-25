@@ -36,7 +36,7 @@ exports.css_wrap = {
         selector: [
           '.my-app',
           '#test',
-          { text: 'body', regex: /^[^b][^o][^d][^y]/ },
+          { text: 'body', skip: /body/ },
           { text: '#sibling', sibling: true },
           { text: '.sibling', sibling: true },
         ],

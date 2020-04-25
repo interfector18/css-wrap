@@ -21,7 +21,7 @@ var
   get_rule = function (sel, s) {
     if (typeof sel === 'object') {
       var ret = [];
-      if (sel.sibling && (/:/.test(s) === false)) {
+      if (sel.sibling && (!/:/.test(s))) {
         if (/^\./.test(sel.text) && /^\./.test(s) ||
           /^#/.test(sel.text) && /^[#\.]/.test(s) ||
           /^[^#.]/.test(sel.text) && /^[#.]/.test(s)) {
@@ -65,7 +65,28 @@ var
       }
     }
   },
+  removeRules = function (list, options) {
+    if (options.removeProperty)
+      list = list.map((rule) => {
+        if (rule.selectors &&
+          rule.selectors.some((selector, index, array) => options.removeProperty.regex.test(selector)) &&
+          rule.declarations !== undefined) {
+          rule.declarations = rule.declarations.filter((declaration) => options.removeProperty.property.test(declaration.property) === false);
+          console.log(rule.declarations);
+        }
+        return rule
+      });
+
+    return list.filter((rule) => {
+      if (rule.selectors)
+        return rule.selectors.findIndex((sel) => options.remove.test(sel)) === -1;
+      else
+        return true;
+    })
+  },
   processRules = function (list, options) {
+    if (options.remove !== undefined)
+      list = removeRules(list, options)
     return list.map(function (r) {
       if (r.selectors) {
         r.selectors.forEach(function (s, index) {
@@ -75,7 +96,8 @@ var
             var selectors = [];
             options.selector.forEach((sel) => {
               if (typeof sel === 'object' && sel.text) {
-                if (sel.regex && sel.regex.test(s)) {
+                if (sel.skip && sel.skip.test(s)) { }
+                else if (sel.regex && sel.regex.test(s)) {
                   selectors.push(get_rule(sel, s))
                 }
                 else if (sel.regex) { }

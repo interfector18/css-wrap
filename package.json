@@ -1,6 +1,6 @@
 {
   "name": "@interfector18/css-wrap",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "description": "Wrap CSS rules in a namespace",
   "main": "css_wrap.js",
   "homepage": "https://github.com/interfector18/css-wrap",
