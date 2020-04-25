@@ -72,7 +72,6 @@ var
           rule.selectors.some((selector, index, array) => options.removeProperty.regex.test(selector)) &&
           rule.declarations !== undefined) {
           rule.declarations = rule.declarations.filter((declaration) => options.removeProperty.property.test(declaration.property) === false);
-          console.log(rule.declarations);
         }
         return rule
       });
